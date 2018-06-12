@@ -1,14 +1,17 @@
-# snap
+# Simple Image Saver
 
 There is a new trend of developing algorithms with deep neural network (dnn).
 We are trying to test that idea on data sets produced by in a simulated world and environment.
 This python script is an example of how to produce thos kind of data sets.
 
 ATTENTION!!!!
+
 In order to be able to generate pictures, one need to activate the CAMERA(S) on the bobcat.
+
 To activate the cameras on the bobcat, remove comments on the model.sdf of the bobcat regarding the cameras
 in the live_bobcat directory:
 
+```
 <!-- CAM Sensors  -->
    <!-- <include>
       <uri>model://FLEA3_L</uri>
@@ -47,3 +50,4 @@ in the live_bobcat directory:
       </axis>
     </joint>
 -->
+```
