@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import sys
+import sys, os
 print(sys.version_info)
 
 # rospy for the subscriber
@@ -16,7 +16,7 @@ from geometry_msgs.msg import Pose
 model_name = "Sahar"
 # Instantiate CvBridge
 bridge = CvBridge()
-
+loc=""
 def pose_callback(msg):
 
     global myPose , myOrientation 
@@ -35,10 +35,10 @@ def image_callback(msg):
 
     file_name = "T=" + str(rospy.get_rostime()) + "   Px=" + str(round(myPose.x, 5)) + "   Py =" + str(round(myPose.y, 5)) + "   Pz =" + str(round(myPose.z, 5)) + "   Qx =" + str(round(myOrientation.x, 5)) + "   Qy =" + str(round(myOrientation.y, 5)) + "   Qz =" + str(round(myOrientation.z, 5)) + "   Qw=" + str(round(myOrientation.w, 5)) 
 
-    print (myPose)
-    print (myOrientation)
-    print ("Received an image!")
-
+    #print (myPose)
+    #print (myOrientation)
+    #print ("Received an image!")
+    #print (loc+"/" + file_name + " .png")
     try:
         # Convert your ROS Image message to OpenCV2
         cv2_img = bridge.imgmsg_to_cv2(msg, "bgr8")
@@ -46,15 +46,18 @@ def image_callback(msg):
         print(e)
     else:
         # Save your OpenCV2 image as a png
-        cv2.imwrite("/home/robil/ " + file_name + " .png", cv2_img)
+        cv2.imwrite(loc+"/" + file_name + " .png", cv2_img)
+        #cv2.imwrite("/home/robil/ " + file_name + " .png", cv2_img)
+
 
 def main():
     rospy.init_node('image_listener')
     # Define your image topic
     image_topic = "/SENSORS/CAM/R"
     pose_topic = "/gazebo/model_states"
-
-
+    if not os.path.exists(loc):
+        os.makedirs(loc)
+    print("Saving images in:" + loc)
     # Set up your subscribers and define its callback
     rospy.Subscriber(image_topic, Image, image_callback)
     rospy.Subscriber(pose_topic, ModelStates, pose_callback)
@@ -63,5 +66,10 @@ def main():
     rospy.spin()
 
 if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        loc="/home/robil/default"
+    else:
+        loc=sys.argv[1]
+
     main()
     

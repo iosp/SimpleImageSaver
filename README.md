@@ -2,7 +2,14 @@
 
 There is a new trend of developing algorithms with deep neural network (dnn).
 We are trying to test that idea on data sets produced by in a simulated world and environment.
-This python script is an example of how to produce thos kind of data sets.
+This python script is an example of how to produce those kind of data sets.
+
+In order to create the set of images:
+1. Run smartest: $robil2/src/3party/smartest
+For example: generate and run 10 scenarios
+roslaunch smartest runMultipleScenario_robil2_tracked.launch n:=10
+2. Run the image saver script with the full path of the location where to put the pictures:
+python image_saver.py /home/robil/default
 
 ATTENTION!!!!
 
